@@ -1,7 +1,6 @@
 import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:lottie/lottie.dart';
-
 import '../UserScreen/LoginScreen.dart';
 
 class SliderScreen extends StatefulWidget {
@@ -15,10 +14,10 @@ class _SliderScreenState extends State<SliderScreen> {
   final PageController _pageController = PageController();
   int _currentPage = 0;
   late Timer _timer;
-
+// Example path to local Lottie animation
   final List<String> _lottieAnimations = [
-    'assets/animation/animation.json', // Example path to local Lottie animation
-    'assets/animation/animation2.json', // Example URL to remote Lottie animation
+    'assets/animation/animation.json',
+    'assets/animation/animation2.json',
     'assets/animation/animation1.json'
   ];
 

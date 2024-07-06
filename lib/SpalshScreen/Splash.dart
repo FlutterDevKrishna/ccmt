@@ -71,24 +71,66 @@ class _SplashScreenState extends State<SplashScreen> with SingleTickerProviderSt
             stops: [0.0, 0.7],
           ),
         ),
-        child: Center(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              FadeTransition(
-                opacity: _animation,
-                child: Image.asset(
-                  'assets/logo/logo.png', // Make sure to add this image to your assets
-                  height: 80,
+        child: Column(
+          children: [
+            Expanded(
+              child: Center(
+                child: Column(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    FadeTransition(
+                      opacity: _animation,
+                      child: Image.asset(
+                        'assets/logo/logo.png', // Make sure to add this image to your assets
+                        height: 80,
+                      ),
+                    ),
+                    SizedBox(height: 20),
+                    SpinKitThreeBounce(
+                      color: Colors.white,
+                      size: 30.0,
+                    ),
+                  ],
                 ),
               ),
-              SizedBox(height: 20),
-              SpinKitThreeBounce(
-                color: Colors.white,
-                size: 30.0,
+            ),
+            Padding(
+              padding: const EdgeInsets.only(bottom: 20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Text(
+                    'Powered by ',
+                    style: TextStyle(
+                      color: Colors.white,
+                      fontSize: 14,
+                      fontWeight: FontWeight.bold,
+                      letterSpacing: 1.2,
+                      shadows: [
+                        Shadow(
+                          blurRadius: 10.0,
+                          color: Colors.black54,
+                          offset: Offset(2.0, 2.0),
+                        ),
+                      ],
+                    ),
+                  ),
+                  SizedBox(height: 2),
+                  Container(
+
+                    child: Padding(
+                      padding: const EdgeInsets.all(8.0),
+                      child: Image.asset(
+                        'assets/logo/plogo.png', // Replace with your company logo asset path
+                        height: 30,
+                      ),
+                    ),
+                  ),
+                ],
               ),
-            ],
-          ),
+            ),
+
+          ],
         ),
       ),
     );

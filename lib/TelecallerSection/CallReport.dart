@@ -38,7 +38,7 @@ class _CollectionreportState extends State<Callreport> {
   }
 
   Future<void> fetchData() async {
-    String url = 'https://tm.webbexindia.com/api/callreport';
+    String url = 'http://admin.ccmorg.in/api/callreport';
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -48,9 +48,9 @@ class _CollectionreportState extends State<Callreport> {
       final result = CallReportModel.fromJson(jsonDecode(response.body));
       setState(() {
         callModel = result;
-        dailycall = int.parse(result.dailyCalls);
-        weeklycall = int.parse(result.weeklyCalls);
-        monthlycall =int.parse( result.monthlyCalls);
+        dailycall = result.dailyCalls;
+        weeklycall = result.weeklyCalls;
+        monthlycall =result.monthlyCalls;
       });
     } else {
       throw Exception('Failed to load data');
@@ -73,7 +73,15 @@ class _CollectionreportState extends State<Callreport> {
             style: TextStyle(color: Colors.white),
           ),
           elevation: 4,
-          backgroundColor: Colors.indigo,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.indigo, Colors.blueAccent],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
         ),
         body: Stack(children: [
           Container(

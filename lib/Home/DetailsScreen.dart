@@ -112,7 +112,7 @@ class _DetailScreenState extends State<DetailScreen> {
       'image': _base64Image,
     };
     // Replace with your API endpoint
-    var apiUrl = Uri.parse('https://tm.webbexindia.com/api/update-data-status');
+    var apiUrl = Uri.parse('http://admin.ccmorg.in/api/update-data-status');
 
     try {
       var response = await http.post(
@@ -154,7 +154,15 @@ class _DetailScreenState extends State<DetailScreen> {
           style: TextStyle(color: Colors.white),
         ),
         elevation: 4,
-        backgroundColor: Colors.indigo,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.indigo, Colors.blueAccent],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
       ),
       body: Stack(
         children: [
@@ -216,25 +224,34 @@ class _DetailScreenState extends State<DetailScreen> {
     return Row(
       mainAxisAlignment: MainAxisAlignment.spaceEvenly,
       children: [
-        _buildCustomButton('Call', Colors.green, () {
+        _buildCustomButton('Call', Colors.green,Icons.call, () {
           _launchPhoneCall(widget.data.mobile);
         }),
-        _buildCustomButton('Message', Colors.indigo, () {
+        _buildCustomButton('Message', Colors.indigo,Icons.message, () {
           openWhatsApp(widget.data.mobile);
         }),
       ],
     );
   }
-
-  Widget _buildCustomButton(String label, Color color, VoidCallback onPressed) {
+  Widget _buildCustomButton(String label, Color color, IconData iconData, VoidCallback onPressed) {
     return ElevatedButton(
       onPressed: onPressed,
-      child: Text(label),
       style: ElevatedButton.styleFrom(
-        backgroundColor: color,
+        backgroundColor: color, // Background color
         shape: RoundedRectangleBorder(
           borderRadius: BorderRadius.circular(8.0),
         ),
+      ),
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          Icon(iconData,color: Colors.white,), // Icon
+          SizedBox(width: 8.0), // Adjust the spacing between icon and text
+          Text(
+            label,
+            style: TextStyle(fontSize: 16), // Adjust text style as needed
+          ),
+        ],
       ),
     );
   }
@@ -261,7 +278,7 @@ class _DetailScreenState extends State<DetailScreen> {
 
   Future<void> _sendCallDuration(int duration) async {
     try {
-      String apiUrl = 'https://tm.webbexindia.com/api/callduration';
+      String apiUrl = 'http://admin.ccmorg.in/api/callduration';
       final response = await http.post(
         Uri.parse(apiUrl),
         headers: {'Content-Type': 'application/json'},

@@ -38,7 +38,7 @@ class _DatareportState extends State<Datareport> {
   }
 
   Future<void> fetchData() async {
-    String url = 'https://tm.webbexindia.com/api/telecallerdatareport';
+    String url = 'http://admin.ccmorg.in/api/telecallerdatareport';
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -75,7 +75,15 @@ class _DatareportState extends State<Datareport> {
             style: TextStyle(color: Colors.white),
           ),
           elevation: 4,
-          backgroundColor: Colors.indigo,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.indigo, Colors.blueAccent],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
         ),
         body: Stack(children: [
           Container(

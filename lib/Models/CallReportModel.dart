@@ -9,9 +9,9 @@ CallReportModel callReportModelFromJson(String str) => CallReportModel.fromJson(
 String callReportModelToJson(CallReportModel data) => json.encode(data.toJson());
 
 class CallReportModel {
-  String dailyCalls;
-  String weeklyCalls;
-  String monthlyCalls;
+  int dailyCalls;
+  int weeklyCalls;
+  int monthlyCalls;
 
   CallReportModel({
     required this.dailyCalls,

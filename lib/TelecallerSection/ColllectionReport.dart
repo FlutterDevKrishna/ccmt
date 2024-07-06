@@ -38,7 +38,7 @@ class _CollectionreportState extends State<Collectionreport> {
   }
 
   Future<void> fetchData() async {
-    String url = 'https://tm.webbexindia.com/api/collectionreport';
+    String url = 'http://admin.ccmorg.in/api/collectionreport';
     final response = await http.post(
       Uri.parse(url),
       headers: {'Content-Type': 'application/json'},
@@ -74,7 +74,15 @@ class _CollectionreportState extends State<Collectionreport> {
             style: TextStyle(color: Colors.white),
           ),
           elevation: 4,
-          backgroundColor: Colors.indigo,
+          flexibleSpace: Container(
+            decoration: BoxDecoration(
+              gradient: LinearGradient(
+                colors: [Colors.indigo, Colors.blueAccent],
+                begin: Alignment.topLeft,
+                end: Alignment.bottomRight,
+              ),
+            ),
+          ),
         ),
         body: Stack(children: [
           Container(

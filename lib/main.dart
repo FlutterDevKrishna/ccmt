@@ -5,8 +5,10 @@ import 'SpalshScreen/Splash.dart';
 
 void main() {
   runApp(
-    ChangeNotifierProvider(
-      create: (context) => DataProvider(),
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => DataProvider()),
+      ],
       child: MyApp(),
     ),
   );

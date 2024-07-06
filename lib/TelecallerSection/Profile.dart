@@ -42,7 +42,7 @@ class _ProfileState extends State<Profile> {
 
   Future<void> _loadTeleCallerDetails() async {
     try {
-      String url = 'https://tm.webbexindia.com/api/profiletelecaller';
+      String url = 'http://admin.ccmorg.in/api/profiletelecaller';
       final response = await http.post(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
@@ -72,7 +72,7 @@ class _ProfileState extends State<Profile> {
     });
 
     try {
-      String url = 'https://tm.webbexindia.com/api/resetpassword';
+      String url = 'http://admin.ccmorg.in/api/resetpassword';
       final response = await http.post(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
@@ -221,7 +221,15 @@ class _ProfileState extends State<Profile> {
           },
         ),
         title: Text('Profile', style: TextStyle(color: Colors.white)),
-        backgroundColor: Colors.indigo,
+        flexibleSpace: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              colors: [Colors.indigo, Colors.blueAccent],
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+            ),
+          ),
+        ),
         elevation: 0,
         centerTitle: true,
       ),

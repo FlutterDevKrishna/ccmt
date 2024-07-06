@@ -1,8 +1,5 @@
 import 'dart:convert';
-import 'package:ccmt/Home/ConfirmedData.dart';
 import 'package:ccmt/Home/DataScreen.dart';
-import 'package:ccmt/Home/FollowupData.dart';
-import 'package:ccmt/Home/NewData.dart';
 import 'package:ccmt/Models/DashboardModel.dart';
 import 'package:ccmt/TelecallerSection/CallReport.dart';
 import 'package:ccmt/TelecallerSection/Profile.dart';
@@ -14,9 +11,8 @@ import '../TelecallerSection/ColllectionReport.dart';
 import '../TelecallerSection/DataReport.dart';
 import 'package:intl/intl.dart';
 import 'package:http/http.dart' as http;
-
 import '../UserScreen/LoginScreen.dart';
-import 'DailyCollection.dart';
+
 
 class Homescreen extends StatefulWidget {
   const Homescreen({Key? key}) : super(key: key);
@@ -66,7 +62,7 @@ class _HomescreenState extends State<Homescreen> {
     });
 
     try {
-      String url = 'https://tm.webbexindia.com/api/teledata';
+      String url = 'http://admin.ccmorg.in/api/teledata';
       final response = await http.post(
         Uri.parse(url),
         headers: {'Content-Type': 'application/json'},
@@ -132,7 +128,7 @@ class _HomescreenState extends State<Homescreen> {
     if (userId != null) {
       // Send a POST request to the logout API
       var response = await http.post(
-        Uri.parse('https://tm.webbexindia.com/api/logout'),
+        Uri.parse('http://admin.ccmorg.in/api/logout'),
         body: {'id': userId},
       );
 
@@ -260,282 +256,284 @@ class _HomescreenState extends State<Homescreen> {
           ),
         ),
       ),
-      body: _isLoading
-          ? Center(
-        child: CircularProgressIndicator(),
-      )
-          : SingleChildScrollView(
-        child: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              colors: [Colors.blue[50]!, Colors.blue[100]!],
-              begin: Alignment.topCenter,
-              end: Alignment.bottomCenter,
-            ),
-          ),
-          padding: EdgeInsets.all(16),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: <Widget>[
-          // Telecaller details section
-          Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-            colors: [Colors.white, Colors.blue[50]!],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.phone,
-                  color: Colors.blue,
-                  size: 24,
-                ),
-                SizedBox(width: 10),
-                AnimatedTextKit(
-                  animatedTexts: [
-                    TyperAnimatedText(
-                      'Telecaller Details',
-                      textStyle: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Colors.blue,
-                      ),
-                      speed: Duration(milliseconds: 100),
-                    ),
-                  ],
-                  isRepeatingAnimation: false,
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            Row(
-              children: [
-                Icon(
-                  Icons.person,
-                  color: Colors.black87,
-                  size: 18,
-                ),
-                SizedBox(width: 5),
-                Text(
-                  'Name: $telecallerName',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black87,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 5),
-            Row(
-              children: [
-                Icon(
-                  Icons.access_time,
-                  color: Colors.black87,
-                  size: 18,
-                ),
-                SizedBox(width: 5),
-                Text(
-                  'Login Time: $loginTime',
-                  style: TextStyle(
-                    fontSize: 16,
-                    color: Colors.black87,
-                  ),
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-      SizedBox(height: 20),
-      // Metrics containers
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-
-          buildMetricContainer('Total Data', '$totalData', Colors.blue, () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>Datascreen()),
-            );
-          }),
-          buildMetricContainer('Total Revenue', '₹$totalRevenue', Colors.green, () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) =>Confirmeddata()),
-            );
-          }),
-        ],
-      ),
-      SizedBox(height: 10),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          buildMetricContainer(
-              'Daily Collection', '₹$dailyCollection', Colors.orange, () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Dailycollection()),
-            );
-          }),
-          buildMetricContainer('Daily Calls', '$dailyCalls', Colors.purple, () {
-
-          }),
-        ],
-      ),
-      SizedBox(height: 10),
-      Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
-        children: [
-          buildMetricContainer('Follow-Up', '$followup', Colors.red, () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Followupdata()),
-            );
-          }),
-          buildMetricContainer('New Leads', '$newLead', Colors.teal, () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => Newdata()),
-            );
-          }),
-        ],
-      ),
-      SizedBox(height: 20),
-      // Bar chart for the sample data
-      // Bar chart
-      Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            colors: [Colors.white, Colors.blue[50]!],
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-          ),
-          borderRadius: BorderRadius.circular(10),
-          boxShadow: [
-            BoxShadow(
-              color: Colors.grey.withOpacity(0.3),
-              spreadRadius: 2,
-              blurRadius: 5,
-              offset: Offset(0, 3),
-            ),
-          ],
-        ),
-        padding: EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            Row(
-              children: [
-                Icon(
-                  Icons.bar_chart,
-                  color: Colors.blue,
-                  size: 24,
-                ),
-                SizedBox(width: 10),
-                Text(
-                  'Data Metrics',
-                  style: TextStyle(
-                    fontSize: 20,
-                    fontWeight: FontWeight.bold,
-                    color: Colors.blue,
-                  ),
-                ),
-              ],
-            ),
-            SizedBox(height: 10),
-            // Bar chart with sample data
-            SfCartesianChart(
-              primaryXAxis: CategoryAxis(),
-              series: <CartesianSeries>[
-                ColumnSeries<Task, String>(
-                  dataSource: barData,
-                  xValueMapper: (Task task, _) => task.task,
-                  yValueMapper: (Task task, _) => task.value,
-                  dataLabelSettings: DataLabelSettings(isVisible: true),
-                  color: Colors.blue,
-                ),
-              ],
-            ),
-          ],
-        ),
-      ),
-              SizedBox(height: 16),
-    //          bar chart
-              // Bar chart
-              Container(
+      body: RefreshIndicator(
+          onRefresh: _handleRefresh,
+          child:  _isLoading
+              ? Center(
+            child: CircularProgressIndicator(),
+          )
+              : SingleChildScrollView(
+              child: Container(
                 decoration: BoxDecoration(
                   gradient: LinearGradient(
-                    colors: [Colors.white, Colors.blue[50]!],
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
+                    colors: [Colors.blue[50]!, Colors.blue[100]!],
+                    begin: Alignment.topCenter,
+                    end: Alignment.bottomCenter,
                   ),
-                  borderRadius: BorderRadius.circular(10),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.grey.withOpacity(0.3),
-                      spreadRadius: 2,
-                      blurRadius: 5,
-                      offset: Offset(0, 3),
-                    ),
-                  ],
                 ),
                 padding: EdgeInsets.all(16),
                 child: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Row(
-                      children: [
-                        Icon(
-                          Icons.bar_chart,
-                          color: Colors.blue,
-                          size: 24,
-                        ),
-                        SizedBox(width: 10),
-                        Text(
-                          'Revenue Metrics',
-                          style: TextStyle(
-                            fontSize: 20,
-                            fontWeight: FontWeight.bold,
-                            color: Colors.blue,
+                    crossAxisAlignment: CrossAxisAlignment.stretch,
+                    children: <Widget>[
+                      // Telecaller details section
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.white, Colors.blue[50]!],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
                           ),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                    SizedBox(height: 10),
-                    // Bar chart with sample data
-                    SfCartesianChart(
-                      primaryXAxis: CategoryAxis(),
-                      series: <CartesianSeries>[
-                        ColumnSeries<Task, String>(
-                          dataSource: collectionBarData,
-                          xValueMapper: (Task task, _) => task.task,
-                          yValueMapper: (Task task, _) => task.value,
-                          dataLabelSettings: DataLabelSettings(isVisible: true),
-                          color: Colors.blue,
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.phone,
+                                  color: Colors.blue,
+                                  size: 24,
+                                ),
+                                SizedBox(width: 10),
+                                AnimatedTextKit(
+                                  animatedTexts: [
+                                    TyperAnimatedText(
+                                      'Telecaller Details',
+                                      textStyle: TextStyle(
+                                        fontSize: 20,
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.blue,
+                                      ),
+                                      speed: Duration(milliseconds: 100),
+                                    ),
+                                  ],
+                                  isRepeatingAnimation: false,
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.person,
+                                  color: Colors.black87,
+                                  size: 18,
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  'Name: $telecallerName',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 5),
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.access_time,
+                                  color: Colors.black87,
+                                  size: 18,
+                                ),
+                                SizedBox(width: 5),
+                                Text(
+                                  'Login Time: $loginTime',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.black87,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ],
                         ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-    ]),
-    )));
+                      ),
+                      SizedBox(height: 20),
+                      // Metrics containers
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+
+                          buildMetricContainer('Total Data', '$totalData', Colors.blue, () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>Datascreen(apiUrl: "http://admin.ccmorg.in/api/totaldata",)),
+                            );
+                          }),
+                          buildMetricContainer('Total Revenue', '₹$totalRevenue', Colors.green, () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) =>Datascreen(apiUrl: "http://admin.ccmorg.in/api/confirmData",)),
+                            );
+                          }),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          buildMetricContainer(
+                              'Daily Revenue', '₹$dailyCollection', Colors.orange, () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Datascreen(apiUrl: "http://admin.ccmorg.in/api/dailycollectiondata",)),
+                            );
+                          }),
+                          buildMetricContainer('Daily Calls', '$dailyCalls', Colors.purple, () {
+
+                          }),
+                        ],
+                      ),
+                      SizedBox(height: 10),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          buildMetricContainer('Follow-Up', '$followup', Colors.red, () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Datascreen(apiUrl: "http://admin.ccmorg.in/api/followupdata",)),
+                            );
+                          }),
+                          buildMetricContainer('New Leads', '$newLead', Colors.teal, () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(builder: (context) => Datascreen(apiUrl: "http://admin.ccmorg.in/api/newdata",)),
+                            );
+                          }),
+                        ],
+                      ),
+                      SizedBox(height: 20),
+                      // Bar chart for the sample data
+                      // Bar chart
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.white, Colors.blue[50]!],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.bar_chart,
+                                  color: Colors.blue,
+                                  size: 24,
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  'Data Metrics',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10),
+                            // Bar chart with sample data
+                            SfCartesianChart(
+                              primaryXAxis: CategoryAxis(),
+                              series: <CartesianSeries>[
+                                ColumnSeries<Task, String>(
+                                  dataSource: barData,
+                                  xValueMapper: (Task task, _) => task.task,
+                                  yValueMapper: (Task task, _) => task.value,
+                                  dataLabelSettings: DataLabelSettings(isVisible: true),
+                                  color: Colors.blue,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                      SizedBox(height: 16),
+                      //          bar chart
+                      // Bar chart
+                      Container(
+                        decoration: BoxDecoration(
+                          gradient: LinearGradient(
+                            colors: [Colors.white, Colors.blue[50]!],
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                          ),
+                          borderRadius: BorderRadius.circular(10),
+                          boxShadow: [
+                            BoxShadow(
+                              color: Colors.grey.withOpacity(0.3),
+                              spreadRadius: 2,
+                              blurRadius: 5,
+                              offset: Offset(0, 3),
+                            ),
+                          ],
+                        ),
+                        padding: EdgeInsets.all(16),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              children: [
+                                Icon(
+                                  Icons.bar_chart,
+                                  color: Colors.blue,
+                                  size: 24,
+                                ),
+                                SizedBox(width: 10),
+                                Text(
+                                  'Revenue Metrics',
+                                  style: TextStyle(
+                                    fontSize: 20,
+                                    fontWeight: FontWeight.bold,
+                                    color: Colors.blue,
+                                  ),
+                                ),
+                              ],
+                            ),
+                            SizedBox(height: 10),
+                            // Bar chart with sample data
+                            SfCartesianChart(
+                              primaryXAxis: CategoryAxis(),
+                              series: <CartesianSeries>[
+                                ColumnSeries<Task, String>(
+                                  dataSource: collectionBarData,
+                                  xValueMapper: (Task task, _) => task.task,
+                                  yValueMapper: (Task task, _) => task.value,
+                                  dataLabelSettings: DataLabelSettings(isVisible: true),
+                                  color: Colors.blue,
+                                ),
+                              ],
+                            ),
+                          ],
+                        ),
+                      ),
+                    ]),
+              ))),);
   }
 
   Widget buildMetricContainer(String title, String value, Color color, VoidCallback onTap) {
@@ -567,7 +565,7 @@ class _HomescreenState extends State<Homescreen> {
               Text(
                 title,
                 style: TextStyle(
-                  fontSize: 18,
+                  fontSize: 16,
                   fontWeight: FontWeight.bold,
                   color: Colors.white,
                 ),
@@ -586,6 +584,10 @@ class _HomescreenState extends State<Homescreen> {
         ),
       ),
     );
+  }
+
+  Future<void> _handleRefresh() async {
+    await _loadTeleCallerDetails();
   }
 
   Future<void> _confirmLogout(BuildContext context) async {
